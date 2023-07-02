@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store/core/widgets/snackbar.dart';
 import 'package:store/networking/auth_repository.dart';
 
 part 'login_state.dart';
@@ -20,7 +22,8 @@ class LoginCubit extends Cubit<LoginState> {
         email: email,
         password: password,
       );
-    } on Exception catch (_) {
+    } on FirebaseAuthException catch (e) {
+      CustomSnackbar().showSnackBar(label: e.message ?? 'Something went wrong');
       emit(LoginFailed());
     }
     if (isAuthenticated) {

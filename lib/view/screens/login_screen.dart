@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:store/core/constants.dart';
-import 'package:store/core/navigation/app_router.dart';
+import 'package:store/core/navigation/routes.dart';
 import 'package:store/core/widgets/inputs.dart';
 import 'package:store/logic/login_bloc/login_cubit.dart';
 
@@ -15,10 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController =
-      TextEditingController(text: 'test@mail.com');
-  TextEditingController passwordController =
-      TextEditingController(text: 'Test1234');
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginCompleted) {
-          context.router.popAndPush(const HomeScreenRoute());
+          context.router.pushNamed(Routes.homeScreen);
         }
       },
       child: SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Padding(
             padding: EdgeInsets.all(verticalPadding),
             child: Column(
@@ -50,8 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: verticalPadding * 4,
                 ),
+                //TODO add validation
                 InputWidget(
                   textEditingController: emailController,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.emailAddress,
                   hintText: 'User name',
                 ),
                 SizedBox(
@@ -59,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 PasswordInput(
                   passController: passwordController,
+                  textInputAction: TextInputAction.done,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -88,8 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               minimumSize: Size(
-                                verticalPadding * 2,
-                                verticalPadding * 2,
+                                verticalPadding * 2.5,
+                                verticalPadding * 2.5,
                               ),
                               backgroundColor: primary,
                             ),

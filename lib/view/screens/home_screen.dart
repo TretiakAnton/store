@@ -55,7 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(right: smallHorizontalPadding),
-                      child: const Icon(Icons.search),
+                      child: const Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
@@ -97,21 +100,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: smallVerticalPadding * 1.5,
                           ),
                           Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: (products!.length / 2).ceil(),
-                              itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  children: [
-                                    ProductElement(
-                                        product: products[index * 2]),
-                                    index != products.length
-                                        ? ProductElement(
-                                            product: products[index * 2 + 1])
-                                        : Expanded(child: Container()),
-                                  ],
-                                );
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                await bloc.getProducts();
                               },
+                              //TODO decompose
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: (products!.length / 2).ceil(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Row(
+                                    children: [
+                                      ProductElement(
+                                          product: products[index * 2]),
+                                      index != products.length
+                                          ? ProductElement(
+                                              product: products[index * 2 + 1])
+                                          : Expanded(child: Container()),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           SizedBox(

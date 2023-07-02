@@ -37,17 +37,21 @@ class _PasswordInputState extends State<PasswordInput> {
       inputFormatters: [
         LengthLimitingTextInputFormatter(40),
       ],
-      suffixIcon: IconButton(
-        onPressed: () {
+      suffixIcon: GestureDetector(
+        onTap: () {
           setState(() {
             isPasswordObscure = !isPasswordObscure;
           });
         },
-        icon: SvgPicture.asset(
+        child: SvgPicture.asset(
           isPasswordObscure
               ? 'assets/svg/hidden_icon.svg'
               : 'assets/svg/not_hidden_icon.svg',
-          width: 15,
+          width: horizontalPadding,
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );
@@ -154,48 +158,42 @@ class InputWidget extends StatelessWidget {
               )
             : null,
         disabledBorder: inputBorder ??
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+            UnderlineInputBorder(
               borderSide: BorderSide(
-                width: 1,
+                width: 2,
                 color: primary,
               ),
             ),
         border: inputBorder ??
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+            UnderlineInputBorder(
               borderSide: BorderSide(
-                width: 1,
+                width: 2,
                 color: primary,
               ),
             ),
         focusedBorder: inputBorder ??
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+            UnderlineInputBorder(
               borderSide: BorderSide(
-                width: 1,
+                width: 2,
                 color: primary,
               ),
             ),
         enabledBorder: inputBorder ??
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+            UnderlineInputBorder(
               borderSide: BorderSide(
-                width: 1,
+                width: 2,
                 color: primary,
               ),
             ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(
-            width: 1,
+        errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
             color: Colors.red,
           ),
         ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(
-            width: 1,
+        focusedErrorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
             color: Colors.red,
           ),
         ),

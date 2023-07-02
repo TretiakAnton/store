@@ -13,7 +13,7 @@ class StoreCubit extends Cubit<StoreState> {
   List<Product>? _products;
 
   List<Product>? get products => _products;
-
+//TODO add favourites feature
   Future<void> getProducts() async {
     emit(StoreInProgress());
     final List<Product> result = await _repository.getProducts();
