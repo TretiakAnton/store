@@ -3,10 +3,10 @@ part of 'store_cubit.dart';
 @immutable
 abstract class StoreState {}
 
-class MapInitial extends StoreState {}
+class StoreInitial extends StoreState {}
 
-class MapInProgress extends StoreState {}
+class StoreInProgress extends StoreState {}
 
-class MapCompleted extends StoreState {}
+class StoreCompleted extends StoreState {}
 
-class MapFailed extends StoreState {}
+class StoreFailed extends StoreState {}

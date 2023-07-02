@@ -32,6 +32,7 @@ class _PasswordInputState extends State<PasswordInput> {
       obscureText: isPasswordObscure,
       textEditingController: widget.passController,
       textInputType: TextInputType.visiblePassword,
+      hintText: 'Password',
       maxLines: 1,
       inputFormatters: [
         LengthLimitingTextInputFormatter(40),

@@ -5,7 +5,6 @@ import 'package:store/core/constants.dart';
 import 'package:store/core/navigation/app_router.dart';
 import 'package:store/logic/login_bloc/login_cubit.dart';
 import 'package:store/logic/store_bloc/store_cubit.dart';
-import 'package:store/screens/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
-        // BlocProvider<StoreCubit>(create: (context) => StoreCubit()..updateGpsLocation()),
+        BlocProvider<StoreCubit>(create: (context) => StoreCubit()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

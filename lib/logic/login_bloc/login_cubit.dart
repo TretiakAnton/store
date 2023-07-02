@@ -1,30 +1,29 @@
-import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store/networking/auth_repository.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final AuthRepository _repository = AuthRepository();
 
   Future<void> googleLogin({
     required String email,
     required String password,
   }) async {
     emit(LoginInProgress());
-    UserCredential? result;
+    bool isAuthenticated = false;
     try {
-      result = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      isAuthenticated = await _repository.login(
         email: email,
         password: password,
       );
-    } on Exception catch (e) {
-      result = null;
+    } on Exception catch (_) {
       emit(LoginFailed());
     }
-    if (result?.user?.uid != null) {
+    if (isAuthenticated) {
       emit(LoginCompleted());
     } else {
       emit(LoginFailed());

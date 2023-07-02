@@ -1,16 +1,27 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:store/logic/login_bloc/login_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store/models/product.dart';
+import 'package:store/networking/store_repository.dart';
 
 part 'store_state.dart';
 
 class StoreCubit extends Cubit<StoreState> {
-  StoreCubit() : super(MapInitial());
+  StoreCubit() : super(StoreInitial());
+  final StoreRepository _repository = StoreRepository();
+  List<Product>? _products;
 
-  bool googleLogin() {
-    return true;
+  List<Product>? get products => _products;
+
+  Future<void> getProducts() async {
+    emit(StoreInProgress());
+    final List<Product> result = await _repository.getProducts();
+    if (result.isEmpty) {
+      emit(StoreFailed());
+    } else {
+      _products = result;
+      emit(StoreCompleted());
+    }
   }
 }
